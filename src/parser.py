@@ -27,8 +27,27 @@ class Parser:
             return caractere
 
         # cas de la parenthese ouverte
+        if caractere == '(':
+            self.avancer()
+
+            expression = self.parse_alternative()
+
+            if self.courant() != ')':
+                raise ValueError("Parenthese fermante manquante")
+
+            self.avancer()
+
+            return expression
 
         # sinon erreur
+        raise ValueError("Atome invalide")
+    
+    def parse_repetition(self):
+
+        # on commence par lire un atome
+        atome = self.parse_atome()
+
+        # on regarde si l'atome est suivi de *
         
 
 
