@@ -119,3 +119,38 @@ def afficher_nfa(nfa):
     print("debut =", nfa.debut, " fin =", nfa.fin)
     for (depart, symbole, arrivee) in nfa.transitions:
         print("  ", depart, "--" + symbole + "-->", arrivee)
+
+# ---------- Simulation du NFA ----------
+
+def epsilon_fermeture(nfa, etats):
+    """Renvoie les etats donnes + tous ceux atteignables
+    en suivant uniquement des epsilon-transitions."""
+    resultat = set(etats)
+    a_traiter = list(etats)
+    while len(a_traiter) > 0:
+        e = a_traiter.pop()
+        for (depart, symbole, arrivee) in nfa.transitions:
+            if depart == e and symbole == "EPS" and arrivee not in resultat:
+                resultat.add(arrivee)
+                a_traiter.append(arrivee)
+    return resultat
+
+
+def transiter(nfa, etats, c):
+    """Renvoie les etats atteints en lisant le caractere c
+    depuis l'un des etats donnes (sans epsilon-fermeture)."""
+    resultat = set()
+    for (depart, symbole, arrivee) in nfa.transitions:
+        if depart in etats and (symbole == c or symbole == "DOT"):
+            resultat.add(arrivee)
+    return resultat
+
+
+def accepte(nfa, mot):
+    """Renvoie True si le mot ENTIER est reconnu par l'automate."""
+    courant = epsilon_fermeture(nfa, {nfa.debut})
+    for c in mot:
+        courant = epsilon_fermeture(nfa, transiter(nfa, courant, c))
+        if len(courant) == 0:
+            return False
+    return nfa.fin in courant

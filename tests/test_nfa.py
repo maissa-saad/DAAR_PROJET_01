@@ -1,5 +1,5 @@
 from src.parser import parse
-from src.nfa import arbre_vers_nfa
+from src.nfa import arbre_vers_nfa, accepte
 
 
 def test_lettre():
@@ -34,3 +34,32 @@ def test_point():
 def test_exemple_enonce():
     nfa = arbre_vers_nfa(parse("S(a|g|r)+on"))
     assert nfa.nb_etats > 0
+
+
+def verifie(regex, acceptes, refuses):
+    nfa = arbre_vers_nfa(parse(regex))
+    for mot in acceptes:
+        assert accepte(nfa, mot), regex + " devrait accepter " + mot
+    for mot in refuses:
+        assert not accepte(nfa, mot), regex + " devrait refuser " + mot
+
+def test_accepte_lettre():
+    verifie("a", ["a"], ["", "b", "aa"])
+
+def test_accepte_concat():
+    verifie("abc", ["abc"], ["ab", "abcd", "acb"])
+
+def test_accepte_alt():
+    verifie("a|bc", ["a", "bc"], ["b", "abc", ""])
+
+def test_accepte_etoile():
+    verifie("a*", ["", "a", "aaaa"], ["b", "ab"])
+
+def test_accepte_parentheses():
+    verifie("(ab)*", ["", "ab", "abab"], ["a", "aba", "ba"])
+
+def test_accepte_point():
+    verifie("a.c", ["abc", "a9c", "a c"], ["ac", "abbc"])
+
+def test_accepte_exemple_enonce():
+    verifie("S(a|g|r)+on", ["Sargon", "Saon", "Sgrraon"], ["Son", "sargon", "Sargo"])
