@@ -1,6 +1,6 @@
 # Projet 1 – Automates : clone de egrep avec support partiel des ERE
 
-**Collaboratrices :** Ndeye Awa Dieme, Maïssa Saad
+**Collaboratrices :** Dieme Ndeye Awa, Maïssa Saad
 **Enseignant :** BM Bui-Xuan
 **UE :** DAAR – Sorbonne Université, 2026-2027
 
