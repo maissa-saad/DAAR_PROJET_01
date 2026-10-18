@@ -37,7 +37,7 @@ def main():
     # 2) choix de la methode AVANT le parsing
     if est_litteral(regex):
         # mot simple : toujours valide, pas besoin d'arbre ni d'automate
-        correspond = lambda ligne: kmp(regex, ligne)
+        methode = "kmp"
     else:
         # regex -> arbre (et verification de la regex)
         try:
@@ -47,7 +47,7 @@ def main():
             sys.exit(2)
         # arbre -> NFA -> DFA -> DFA minimal
         dfa = minimiser(construire_dfa(arbre_vers_nfa(arbre)))
-        correspond = lambda ligne: ligne_correspond(dfa, ligne)
+        methode = "automate"
 
 
     # 3) lecture du fichier ligne par ligne
@@ -61,7 +61,12 @@ def main():
     with fichier:
         for ligne in fichier:
             ligne = ligne.rstrip("\n")
-            if correspond(ligne):
+            if methode == "kmp":
+                trouve_dans_ligne = kmp(regex, ligne)
+            else:
+                trouve_dans_ligne = ligne_correspond(dfa, ligne)
+
+            if trouve_dans_ligne:
                 print(ligne)
                 trouve = True
 
