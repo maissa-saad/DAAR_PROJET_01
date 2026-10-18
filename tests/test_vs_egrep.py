@@ -31,15 +31,15 @@ def lancer(commande):
     return resultat.stdout, resultat.returncode
 
 
-def test_conformite_avec_egrep():
+# un test par couple (fichier, motif) : 2 x 11 = 22 comparaisons
+@pytest.mark.parametrize("motif", MOTIFS)
+@pytest.mark.parametrize("fichier", FICHIERS)
+def test_conformite_avec_egrep(fichier, motif):
     if not os.path.exists("./myegrep"):
         pytest.skip("lancer 'make' avant ce test")
+    if not os.path.exists(fichier):
+        pytest.skip(fichier + " absent (lancer tests/download.sh)")
 
-    for fichier in FICHIERS:
-        if not os.path.exists(fichier):
-            print("fichier absent, ignore :", fichier, "(lancer tests/download.sh)")
-            continue
-        for motif in MOTIFS:
-            mon = lancer(["./myegrep", motif, fichier])
-            vrai = lancer(["grep", "-E", motif, fichier])
-            assert mon == vrai, "difference pour le motif " + motif + " sur " + fichier
+    mon = lancer(["./myegrep", motif, fichier])
+    vrai = lancer(["grep", "-E", motif, fichier])
+    assert mon == vrai, "difference pour le motif " + motif + " sur " + fichier

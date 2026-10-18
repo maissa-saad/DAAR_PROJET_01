@@ -1,5 +1,6 @@
 # ============================================================
 # Benchmarks : automate vs KMP vs egrep
+# Prerequis : tests/download.sh (livre) et matplotlib
 # Lancer depuis la racine du projet :
 #     PYTHONPATH=. python3 bench/benchmark.py
 # Les graphiques sont enregistres dans bench/results/
@@ -22,7 +23,8 @@ from src.kmp import kmp
 
 LIVRE = "tests/data/56667-0.txt"
 REPETITIONS = 10
-LEGENDE = "Moyenne sur 10 executions - traits noirs : ecart-type"
+LEGENDE = ("Moyenne sur " + str(REPETITIONS)
+           + " executions - traits noirs : ecart-type")
 os.makedirs("bench/results", exist_ok=True)
 os.makedirs("bench/data", exist_ok=True)
 
@@ -83,7 +85,7 @@ def experience_1():
     motif = "Sargon"
     lignes = lire_lignes(LIVRE)
 
-    # on repete 10 fois chaque methode
+    # on repete chaque methode REPETITIONS fois
     t_auto, t_kmp, t_egrep = [], [], []
     for i in range(REPETITIONS):
         t_auto.append(temps_automate(motif, lignes))
@@ -155,7 +157,8 @@ def experience_2():
     plt.ylabel("Temps (ms)")
     plt.title("Temps de recherche selon la taille du fichier")
     plt.legend()
-    plt.figtext(0.5, 0.01, "Moyenne sur 10 executions", ha="center", fontsize=8)
+    plt.figtext(0.5, 0.01, "Moyenne sur " + str(REPETITIONS) + " executions",
+                ha="center", fontsize=8)
     plt.tight_layout(rect=[0, 0.04, 1, 1])
     plt.savefig("bench/results/2_taille.png")
     plt.close()
@@ -194,6 +197,8 @@ def experience_3():
 
 
 if __name__ == "__main__":
+    if not os.path.exists(LIVRE):
+        raise SystemExit("Livre absent : lancer d'abord tests/download.sh")
     experience_1()
     experience_2()
     experience_3()

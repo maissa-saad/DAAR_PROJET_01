@@ -1,11 +1,6 @@
-!tests/data/petit.txt
 myegrep
 __pycache__/
 bench/data/
-essai*.py
-mine.txt
-ref.txt
 mon_resultat.txt
 vrai_resultat.txt
 tests/data/56667-0.txt
-myegrep
