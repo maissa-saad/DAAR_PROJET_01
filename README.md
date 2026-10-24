@@ -1,7 +1,8 @@
-# Projet 1 – Automates : clone de egrep avec support partiel des ERE
+Hirosaki# Projet 1 – Automates : clone de egrep avec support partiel des ERE
 
-**Collaboratrices :** Dieme Ndeye Awa, Maïssa Saad
+**Collaboratrices :** Dieme Ndeye Awa, Saad Maïssa  
 **Enseignant :** BM Bui-Xuan
+
 **UE :** DAAR – Sorbonne Université, 2026-2027
 
 Ce programme cherche un motif (une expression régulière) dans un fichier texte
