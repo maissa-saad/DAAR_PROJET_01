@@ -1,4 +1,4 @@
-Hirosaki# Projet 1 – Automates : clone de egrep avec support partiel des ERE
+# Projet 1 – Automates : clone de egrep avec support partiel des ERE
 
 **Collaboratrices :** Dieme Ndeye Awa, Saad Maïssa  
 **Enseignant :** BM Bui-Xuan
@@ -70,7 +70,7 @@ lui-même les caractères `*`, `|`, `(` et `)`.
 **1. Télécharger le livre de test** (projet Gutenberg) :
 
 ```bash
-tests/download.sh
+bash tests/download.sh
 ```
 
 **2. Lancer tous les tests :**
